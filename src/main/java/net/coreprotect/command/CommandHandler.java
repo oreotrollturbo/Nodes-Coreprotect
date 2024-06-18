@@ -1250,7 +1250,7 @@ public class CommandHandler implements CommandExecutor {
                     PurgeCommand.runCommand(user, permission, argumentArray);
                 }
                 else if (corecommand.equals("inspect") || corecommand.equals("i")) {
-                    InspectCommand.runCommand(user, permission, argumentArray);
+                    InspectCommand.runCommand(user,InspectCommand.isLeader((Player) user) || permission, argumentArray);
                 }
                 else if (corecommand.equals("lookup") || corecommand.equals("l") || corecommand.equals("page")) {
                     LookupCommand.runCommand(user, command, permission, argumentArray);

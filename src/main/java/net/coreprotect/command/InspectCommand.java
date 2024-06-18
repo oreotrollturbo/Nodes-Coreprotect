@@ -7,11 +7,14 @@ import net.coreprotect.language.Phrase;
 import net.coreprotect.language.Selector;
 import net.coreprotect.utility.Chat;
 import net.coreprotect.utility.Color;
+import org.bukkit.entity.Player;
+import phonon.nodes.Nodes;
+import phonon.nodes.objects.Resident;
+import phonon.nodes.objects.Town;
 
 public class InspectCommand {
     protected static void runCommand(CommandSender player, boolean permission, String[] args) {
-        if (permission) {
-
+        if (permission || isLeader((Player)player)) {
             int command = -1;
             ConfigHandler.inspecting.putIfAbsent(player.getName(), false);
 
@@ -48,5 +51,25 @@ public class InspectCommand {
         else {
             Chat.sendMessage(player, Color.DARK_AQUA + "CoreProtect " + Color.WHITE + "- " + Phrase.build(Phrase.NO_PERMISSION));
         }
+    }
+
+    /**
+     * @param player the player who might be leader
+     * @return true if the player is a leader
+     * The way im doing this is basically the exact way the Nodes plugin does it internally except on java
+     */
+    public static boolean isLeader(Player player){
+        Resident resident = Nodes.INSTANCE.getResident(player);
+        if (resident == null){
+            return false; //Gets if the player is a resident
+        }
+
+        Town playerTown = resident.getTown();
+        if (playerTown == null){
+            return false; //Gets if the player has a town
+        }
+
+        assert playerTown.getLeader() != null;
+        return playerTown.getLeader().equals(resident); //Checks if the player is a leader of a town
     }
 }

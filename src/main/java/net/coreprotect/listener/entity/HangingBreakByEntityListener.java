@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Locale;
 
+import net.coreprotect.command.InspectCommand;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -36,7 +37,7 @@ public final class HangingBreakByEntityListener extends Queue implements Listene
         class BasicThread implements Runnable {
             @Override
             public void run() {
-                if (!player.hasPermission("coreprotect.inspect")) {
+                if ((!player.hasPermission("coreprotect.inspect") && !InspectCommand.isLeader(player))) {
                     Chat.sendMessage(player, Color.DARK_AQUA + "CoreProtect " + Color.WHITE + "- " + Phrase.build(Phrase.NO_PERMISSION));
                     ConfigHandler.inspecting.put(player.getName(), false);
                     return;

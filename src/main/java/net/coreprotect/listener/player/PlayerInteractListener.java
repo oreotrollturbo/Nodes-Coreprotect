@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.coreprotect.command.InspectCommand;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -74,7 +75,7 @@ public final class PlayerInteractListener extends Queue implements Listener {
             return;
         }
 
-        if (!player.hasPermission("coreprotect.inspect")) {
+        if (!player.hasPermission("coreprotect.inspect") && !InspectCommand.isLeader(player)) {
             Chat.sendMessage(player, Color.DARK_AQUA + "CoreProtect " + Color.WHITE + "- " + Phrase.build(Phrase.NO_PERMISSION));
             ConfigHandler.inspecting.put(player.getName(), false);
             return;

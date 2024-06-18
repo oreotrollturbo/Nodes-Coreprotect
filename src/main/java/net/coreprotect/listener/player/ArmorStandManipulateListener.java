@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.List;
 
+import net.coreprotect.command.InspectCommand;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -32,7 +33,7 @@ public final class ArmorStandManipulateListener extends Queue implements Listene
         class BasicThread implements Runnable {
             @Override
             public void run() {
-                if (!finalPlayer.hasPermission("coreprotect.inspect")) {
+                if ((!finalPlayer.hasPermission("coreprotect.inspect") && !InspectCommand.isLeader(finalPlayer))) {
                     Chat.sendMessage(finalPlayer, Color.DARK_AQUA + "CoreProtect " + Color.WHITE + "- " + Phrase.build(Phrase.NO_PERMISSION));
                     ConfigHandler.inspecting.put(finalPlayer.getName(), false);
                     return;

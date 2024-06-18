@@ -163,7 +163,7 @@ public class LookupCommand {
         }
 
         if (!permission) {
-            if (!pageLookup || !player.hasPermission("coreprotect.inspect")) {
+            if (!pageLookup || (!player.hasPermission("coreprotect.inspect") && !InspectCommand.isLeader((Player) player))) {
                 Chat.sendMessage(player, new ChatMessage(Phrase.build(Phrase.NO_PERMISSION)).build());
                 return;
             }
