@@ -55,7 +55,7 @@ public class InspectCommand {
 
     /**
      * @param player the player who might be leader
-     * @return true if the player is a leader
+     * @return true if the player is a of a town leader
      * The way im doing this is basically the exact way the Nodes plugin does it internally except on java
      */
     public static boolean isLeader(Player player){
