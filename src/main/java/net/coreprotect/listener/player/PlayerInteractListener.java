@@ -60,6 +60,13 @@ import net.coreprotect.thread.Scheduler;
 import net.coreprotect.utility.Chat;
 import net.coreprotect.utility.Color;
 import net.coreprotect.utility.Util;
+import phonon.nodes.Nodes;
+import phonon.nodes.constants.PermissionsGroup;
+import phonon.nodes.objects.Resident;
+import phonon.nodes.objects.Territory;
+import phonon.nodes.objects.Town;
+
+import static com.sk89q.wepif.VaultResolver.perms;
 
 public final class PlayerInteractListener extends Queue implements Listener {
 
@@ -76,6 +83,16 @@ public final class PlayerInteractListener extends Queue implements Listener {
         }
 
         if (!player.hasPermission("coreprotect.inspect") && !InspectCommand.isLeader(player)) {
+            Chat.sendMessage(player, Color.DARK_AQUA + "CoreProtect " + Color.WHITE + "- " + Phrase.build(Phrase.NO_PERMISSION));
+            ConfigHandler.inspecting.put(player.getName(), false);
+            return;
+        }
+
+        Territory territory = Nodes.INSTANCE.getTerritoryFromBlock(player.getLocation().getBlockX(),player.getLocation().getBlockZ());
+        Town town = territory.getTown();
+        Resident resident = Nodes.INSTANCE.getResident(player);
+        //If statement added to check if the player is within their territory
+        if (town != null && !town.getLeader().equals(resident) ) {
             Chat.sendMessage(player, Color.DARK_AQUA + "CoreProtect " + Color.WHITE + "- " + Phrase.build(Phrase.NO_PERMISSION));
             ConfigHandler.inspecting.put(player.getName(), false);
             return;
